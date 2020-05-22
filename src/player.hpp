@@ -7,22 +7,25 @@
 #include <string>
 #include <utility>
 #include "direction.hpp"
+#include "arrow.hpp"
 
 namespace wumpus {
 
-  struct PlayerState {
-    std::pair<int,int> pos;
-    int leftArrow;
-    //std::vector<>
-  };
-
+  class Grid;
   class Player {
     public:
       void setPos( std::pair<int,int> pos ) { this->pos = pos; }
       std::pair<int,int> getPos() const { return pos; }
+      int getLeftArrow() const { return arrow.getLeftArrow(); }
+      bool canFire() const { return arrow.canFire(); }
+      bool fire( Grid& grid, const util::Direction& dir ){
+        return arrow.fire( grid, pos, dir );
+      };
+      bool hasGold = false;
     private:
-      int leftArrow = 3;
+      Arrow arrow;
       std::pair<int,int> pos;
+      //std::vector<>
   };
 
 }

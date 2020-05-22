@@ -8,6 +8,14 @@
 #include <utility>
 
 namespace wumpus::util {
+
+  inline std::pair<int,int> move( const std::pair<int,int>& l, const std::pair<int,int>& r ){
+    return std::make_pair(
+      l.first + r.first,
+      l.second + r.second
+    );
+  }
+
   class Direction {
     public:
       enum DirectionType {
@@ -16,21 +24,22 @@ namespace wumpus::util {
         east,
         west
       };
+      Direction() = default;
       Direction( DirectionType type ) : type(type) {}
-      Direction( int stat ) : type(static_cast<DirectionType>(stat)) {}
+      Direction( int p ) : type(static_cast<DirectionType>(p)) {}
       Direction( char ch ){
         switch(ch){
           case 'w':
-            Direction(DirectionType::north);
+            type = DirectionType::north;
             break;
           case 'a':
-            Direction(DirectionType::west);
+            type = DirectionType::east;
             break;
           case 's':
-            Direction(DirectionType::south);
+            type = DirectionType::south;
             break;
           case 'd':
-            Direction(DirectionType::east);
+            type = DirectionType::west;
             break;
           default:
             throw std::runtime_error("unexpected char");
@@ -42,11 +51,11 @@ namespace wumpus::util {
           case DirectionType::north:
             return std::make_pair(-1,0);
           case DirectionType::west:
-            return std::make_pair(-1,0);
+            return std::make_pair(0,1);
           case DirectionType::south:
-            return std::make_pair(-1,0);
+            return std::make_pair(1,0);
           case DirectionType::east:
-            return std::make_pair(-1,0);
+            return std::make_pair(0,-1);
           default:
             throw std::runtime_error("unexpected type");
         };

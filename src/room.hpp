@@ -11,6 +11,7 @@ namespace wumpus {
       ~Room(){ delete event; }
       void setEvent( Event* event = nullptr ){ this->event = event; }
       Event* getEvent() { return event; }
+      const Event* getEvent() const { return event; }
     private:
       Event* event = nullptr;
   };

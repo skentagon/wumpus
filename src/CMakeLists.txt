@@ -23,6 +23,9 @@ endif()
 
 add_executable(wumpus
   main.cpp
+  arrow.cpp
+  grid.cpp
+  events.cpp
 )
 
 target_link_libraries(wumpus

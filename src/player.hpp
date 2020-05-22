@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include <string>
-#include <utility>
+//#include <utility>
 #include "direction.hpp"
 #include "arrow.hpp"
 
@@ -14,8 +14,8 @@ namespace wumpus {
   class Grid;
   class Player {
     public:
-      void setPos( std::pair<int,int> pos ) { this->pos = pos; }
-      std::pair<int,int> getPos() const { return pos; }
+      void setPos( util::Pos pos ) { this->pos = pos; }
+      util::Pos getPos() const { return pos; }
       int getLeftArrow() const { return arrow.getLeftArrow(); }
       bool canFire() const { return arrow.canFire(); }
       bool fire( Grid& grid, const util::Direction& dir ){
@@ -24,7 +24,7 @@ namespace wumpus {
       bool hasGold = false;
     private:
       Arrow arrow;
-      std::pair<int,int> pos;
+      util::Pos pos;
       //std::vector<>
   };
 

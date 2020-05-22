@@ -4,6 +4,7 @@
 #pragma once
 
 #include "direction.hpp"
+#include "pos.hpp"
 
 namespace wumpus {
   class Grid;
@@ -11,7 +12,7 @@ namespace wumpus {
     public:
       Arrow() : arrowNum(3) {};
       bool canFire() const { return 0 < arrowNum; }
-      bool fire( Grid& grid, std::pair<int,int> pos, const util::Direction& dir );
+      bool fire( Grid& grid, util::Pos pos, const util::Direction& dir );
       int getLeftArrow() const { return arrowNum; }
     private:
       static const int range = 3;

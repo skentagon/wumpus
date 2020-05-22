@@ -1,6 +1,5 @@
 
 #include <iostream>
-#include <utility>
 #include <cstring>
 #include "direction.hpp"
 #include "game.hpp"
@@ -38,9 +37,13 @@ int main( int argc, char** argv ){
       game.execute();
     }
     std::cout << "Do you want to play again? [y/n]" << std::endl;
-    if ( getChar() == 'y' ){
+    std::string s = "";
+    std::getline(std::cin,s);
+    if ( s[0] == 'y' || s[0] == 'Y' ){
       std::cout << "Do you want to reset map? [y/n]" << std::endl;
-      if ( getChar() == 'y'){
+      std::string s = "";
+      std::getline(std::cin,s);
+      if ( s[0] == 'y'|| s[0] == 'Y' ){
         game = *new(&game) wumpus::Game(ri,rb);
       } else {
         game.setNewPlayerPos();

@@ -6,10 +6,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <utility>
 #include "direction.hpp"
 #include "player.hpp"
 #include "input.hpp"
+#include "pos.hpp"
 
 namespace wumpus {
 
@@ -33,9 +33,9 @@ namespace wumpus {
         win,
       };
       virtual void setOutput( const ActResult& r ) =0;
-      virtual std::pair<bool,util::Direction> getAct( const Player* state ) =0;
+      virtual void getAct( const Player* state, bool* rb, util::Direction* rd ) =0;
       virtual ~IPlayer(){};
-      //virtual void setPos( std::pair<int,int> pos ) =0;
+      //virtual void setPos( util::Pos pos ) =0;
       //virtual void setOutput( const std::string& s ) =0;
   };
 
@@ -81,16 +81,21 @@ namespace wumpus {
           
         }
       }
-      std::pair<bool,util::Direction> getAct( const Player* state ) override {
+      void getAct( const Player* state, bool* rb, util::Direction* rd ) override {
         while(true){
           std::cout << "left arrow : " << state->getLeftArrow() << std::endl;
           std::cout << "Please input next action." << std::endl;
-          char c = getChar();
+          std::string s = "";
+          std::getline(std::cin,s);
           try {
-            if ( c == ' '){
-              return std::make_pair(true,util::Direction(getChar()));
+            if ( s[0] == ' '){
+              *rb = true;
+              *rd = util::Direction(s[1]);
+              return;
             } else {
-              return std::make_pair(false,util::Direction(c));
+              *rb = false;
+              *rd = util::Direction(s[0]);
+              return;
             }
           } catch( ... ){
             std::cout << "invailed input! ";
@@ -109,36 +114,28 @@ namespace wumpus {
       void setOutput( const ActResult& r ) override {
         switch(r){
           case ActResult::movedBats:
-            std::cout << "You were transfered to somewhere..." << std::endl;
             break;
           case ActResult::deadPit:
-            std::cout << "You fell into a pit..." << std::endl;
             break;
           case ActResult::perceptWumpus:
-            std::cout << "You smell a terrible stench." << std::endl;
             break;
           case ActResult::perceptBats:
-            std::cout << "You hear wings flapping." << std::endl;
             break;
           case ActResult::perceptPit:
-            std::cout << "You feel a breeze." << std::endl;
             break;
           case ActResult::perceptGold:
-            std::cout << "You see a glimmer nearby." << std::endl;
             break;
           default:
             break;
         };
       }
-      std::pair<bool,util::Direction> getAct( const Player* state ) override {
-        std::pair<bool,util::Direction> act;
+      void getAct( const Player* state, bool* rb, util::Direction* rd ) override {
         std::cout << "Press any key..." << std::endl;
-        getChar();
-        return act;
+        return;
       }
     private:
-      std::pair<int,int> target;
-      std::vector<std::pair<int,int>> gold;
+      util::Pos target;
+      std::vector<util::Pos> gold;
       int size;
       class understand {
         public:

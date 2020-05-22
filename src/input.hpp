@@ -2,12 +2,11 @@
 #define SKENTAGON_WUMPUS_INPUT_HEADER_INCLUDED
 #pragma once
 
-#ifdef _WIND32
+#if 0
   #include <conio.h>
   inline char getChar(){
     return getch();
   }
-#else
   #include <termios.h>
   #include <stdio.h>
   inline char getChar(){
@@ -23,5 +22,11 @@
     return ch;
   }
 #endif
+
+#include <cstdio>
+
+inline char getChar(){
+  return getchar();
+}
 
 #endif

@@ -18,11 +18,11 @@ namespace wumpus {
       }
       std::cout << "|\n";
       for( int j=0; j<getYSize(); ++j ){
-        if ( player->getPos() == std::make_pair(i,j) ){
+        if ( player->getPos() == util::Pos(i,j) ){
           std::cout << "| * ";
         } else if ( game->isDebugMode && grid[i][j].getEvent() != nullptr ){
           std::cout << "| " << grid[i][j].getEvent()->getSymbol() << " ";
-        } else if ( game->isDebugMode && std::make_pair(i,j) == game->escape ) {
+        } else if ( game->isDebugMode && util::Pos(i,j) == game->escape ) {
           std::cout << "| e ";
         } else {
           std::cout << "|   ";

@@ -4,17 +4,10 @@
 #pragma once
 
 #include <vector>
-#include <stdexcept>
-#include <utility>
+#include <iostream>
+#include "pos.hpp"
 
 namespace wumpus::util {
-
-  inline std::pair<int,int> move( const std::pair<int,int>& l, const std::pair<int,int>& r ){
-    return std::make_pair(
-      l.first + r.first,
-      l.second + r.second
-    );
-  }
 
   class Direction {
     public:
@@ -42,22 +35,23 @@ namespace wumpus::util {
             type = DirectionType::west;
             break;
           default:
-            throw std::runtime_error("unexpected char");
+            std::cout << ch << std::endl;
+            throw "unexpected char";
             break;
         };
       };
-      std::pair<int,int> getDirection() const {
+      util::Pos getDirection() const {
         switch(type){
           case DirectionType::north:
-            return std::make_pair(-1,0);
+            return util::Pos(-1,0);
           case DirectionType::west:
-            return std::make_pair(0,1);
+            return util::Pos(0,1);
           case DirectionType::south:
-            return std::make_pair(1,0);
+            return util::Pos(1,0);
           case DirectionType::east:
-            return std::make_pair(0,-1);
+            return util::Pos(0,-1);
           default:
-            throw std::runtime_error("unexpected type");
+            throw "unexpected type";
         };
       }
     private:

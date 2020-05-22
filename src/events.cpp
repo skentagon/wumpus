@@ -5,6 +5,7 @@
 #include "ioplayer.hpp"
 #include "grid.hpp"
 #include "events.hpp"
+#include "pos.hpp"
 
 namespace wumpus {
   
@@ -13,8 +14,8 @@ namespace wumpus {
     while(true){
       int x = static_cast<int>(std::rand()%grid->getXSize());
       int y = static_cast<int>(std::rand()%grid->getYSize());
-      if ( grid->grid[x][y].getEvent() == nullptr && player->getPos() != std::make_pair(x,y) ){
-        player->setPos(std::make_pair(x,y));
+      if ( grid->grid[x][y].getEvent() == nullptr && player->getPos() != util::Pos(x,y) ){
+        player->setPos(util::Pos(x,y));
         break;
       }
     }

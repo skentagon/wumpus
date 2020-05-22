@@ -19,10 +19,10 @@ namespace wumpus {
         {};
       int getXSize() const { return grid.size(); }
       int getYSize() const { return grid[0].size(); }
-      Room& at( const std::pair<int,int>& p ){ return grid[p.first][p.second]; }
-      const Room& at( const std::pair<int,int>& p ) const { return grid[p.first][p.second]; }
-      bool canMoveTo( std::pair<int,int> pos ) const {
-        if ( 0 <= pos.first && pos.first < getXSize() && 0 <= pos.second && pos.second < getYSize() ){
+      Room& at( const util::Pos& p ){ return grid[p.x][p.y]; }
+      const Room& at( const util::Pos& p ) const { return grid[p.x][p.y]; }
+      bool canMoveTo( util::Pos pos ) const {
+        if ( 0 <= pos.x && pos.x < getXSize() && 0 <= pos.y && pos.y < getYSize() ){
           return true;
         }
         return false;

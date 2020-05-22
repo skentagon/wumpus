@@ -35,18 +35,19 @@ namespace wumpus {
       void execute() {
         grid.show( &player, this );
         for( size_t i=0; i<4; ++i ){
-          auto ap = util::move( player.getPos(), util::Direction(static_cast<int>(i)).getDirection() );
+          auto ap = player.getPos() + util::Direction(static_cast<int>(i)).getDirection();
           if ( grid.canMoveTo(ap) && grid.at(ap).getEvent() != nullptr ){
             ioPlayer->setOutput(grid.at(ap).getEvent()->percept());
           }
         }
-        std::pair<bool,util::Direction> act;
         while(true){
-          act = ioPlayer->getAct( &player );
+          bool actb;
+          util::Direction actd;
+          ioPlayer->getAct( &player, &actb, &actd );
           //check
-          if ( act.first ){
+          if ( actb ){
             if ( player.canFire() ){
-              if ( player.fire(grid,act.second) ){
+              if ( player.fire(grid,actd) ){
                 ioPlayer->setOutput(IOPlayer::ActResult::killWumpus);
               }
               break;
@@ -54,15 +55,15 @@ namespace wumpus {
               ioPlayer->setOutput(IOPlayer::ActResult::noLeftArrow);
             }
           } else {
-            if ( grid.canMoveTo( util::move( player.getPos(), act.second.getDirection() ) ) ){
-              player.setPos( util::move( player.getPos(), act.second.getDirection() ) );
+            if ( grid.canMoveTo( player.getPos() + actd.getDirection() ) ){
+              player.setPos( player.getPos() + actd.getDirection() );
               break;
             } else {
               ioPlayer->setOutput(IOPlayer::ActResult::mapAreaOut);
             }
           }
         }
-        auto event = grid.grid[player.getPos().first][player.getPos().second].getEvent();
+        auto event = grid.grid[player.getPos().x][player.getPos().y].getEvent();
         if ( event != nullptr ){
           if (event->encounter(ioPlayer,&player,&grid)){ sw_shouldExit = true; }
         }
@@ -76,14 +77,14 @@ namespace wumpus {
           int x = static_cast<int>(std::rand()%grid.getXSize());
           int y = static_cast<int>(std::rand()%grid.getXSize());
           if ( grid.grid[x][y].getEvent() == nullptr ){
-            player.setPos(std::make_pair(x,y));
+            player.setPos(util::Pos(x,y));
             break;
           }
         }
       }
       bool doesUseAI = false;
       bool isDebugMode = false;
-      std::pair<int,int> escape;
+      util::Pos escape;
     private:
       Grid grid;
       Player player;

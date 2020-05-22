@@ -16,12 +16,12 @@ namespace wumpus {
     public:
       Game( int i, bool d ) : grid(Grid(i,i)), player(), ioPlayer(nullptr), sw_shouldExit(false), isDebugMode(d) {
         std::srand(static_cast<unsigned int>(std::time(NULL)));
-        setRandCell(new Wumpus,i);
-        setRandCell(new Bats,i);
-        setRandCell(new Bats,i);
-        setRandCell(new Pit,i);
-        setRandCell(new Pit,i);
-        setRandCell(new Gold,i);
+        setRandCell(new Wumpus);
+        setRandCell(new Bats);
+        setRandCell(new Bats);
+        setRandCell(new Pit);
+        setRandCell(new Pit);
+        setRandCell(new Gold);
         setNewPlayerPos();
         if (doesUseAI) {
           ioPlayer = new AI(i);
@@ -89,10 +89,10 @@ namespace wumpus {
       Player player;
       IPlayer* ioPlayer;
       bool sw_shouldExit = false;
-      void setRandCell( Event* event, int i ){
+      void setRandCell( Event* event ){
         while(true){
-          int x = static_cast<int>(std::rand()%i);
-          int y = static_cast<int>(std::rand()%i);
+          int x = static_cast<int>(std::rand()%grid.getXSize());
+          int y = static_cast<int>(std::rand()%grid.getYSize());
           if ( grid.grid[x][y].getEvent() == nullptr ){
             grid.grid[x][y].setEvent(event);
             break;
